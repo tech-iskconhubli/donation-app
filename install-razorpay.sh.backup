@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "🚀 Installing Razorpay and dependencies..."
+
+# Install the main dependencies
+npm install razorpay @types/razorpay
+
+# Check if installation was successful
+if [ $? -eq 0 ]; then
+    echo "✅ Razorpay installed successfully!"
+    echo ""
+    echo "📋 Next steps:"
+    echo "1. Copy .env.example to .env.local"
+    echo "2. Add your Razorpay keys to .env.local"
+    echo "3. Restart your development server: npm run dev"
+    echo ""
+    echo "🔑 Get your Razorpay keys from:"
+    echo "   https://dashboard.razorpay.com/app/keys"
+else
+    echo "❌ Installation failed. Please try again."
+    echo ""
+    echo "🔧 Manual installation:"
+    echo "   npm install razorpay @types/razorpay"
+fi

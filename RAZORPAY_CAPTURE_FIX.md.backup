@@ -1,0 +1,222 @@
+# Razorpay Payment Capture Fix Guide
+
+## 🚨 **Problem**: Payments Stuck at "Authorized" Status
+
+Your Razorpay transactions are getting stuck at "Authorized" status instead of moving to "Captured". This means:
+- ✅ Payment method is verified
+- ✅ Amount is reserved from customer's account
+- ❌ Money is NOT transferred to your account yet
+- ❌ Settlement will NOT happen until captured
+
+## 🔧 **Solutions Implemented**
+
+### **1. Backend Payment Capture API**
+Updated `/api/payments/route.ts` to automatically capture payments:
+
+```typescript
+// Capture payment after authorization
+const captureResponse = await razorpay.payments.capture(
+  paymentId,
+  amount * 100, // Amount in paisa
+  'INR'
+);
+```
+
+### **2. Frontend Integration**
+Updated `src/lib/razorpay.ts` to send payment details to backend for capture:
+
+```typescript
+// After payment authorization, capture it
+const captureResponse = await fetch('/api/payments', {
+  method: 'POST',
+  body: JSON.stringify({
+    paymentId: response.razorpay_payment_id,
+    amount: amount,
+    campaignId: formData.campaignId,
+    ...formData
+  })
+});
+```
+
+### **3. Added Razorpay Server SDK**
+Added `razorpay` package to dependencies for server-side operations.
+
+## ⚙️ **Setup Required**
+
+### **1. Install Dependencies**
+```bash
+npm install razorpay
+```
+
+### **2. Environment Variables**
+Create `.env.local` file with your Razorpay credentials:
+
+```env
+# Get these from https://dashboard.razorpay.com/app/keys
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key_id_here
+RAZORPAY_KEY_SECRET=your_secret_key_here
+```
+
+### **3. Alternative: Enable Auto-Capture**
+**Option A**: Enable in Razorpay Dashboard
+```
+Dashboard → Settings → Payment Configuration → Auto Capture: ON
+```
+
+**Option B**: Enable via API (programmatically)
+```typescript
+const options = {
+  // ... other options
+  payment_capture: 1, // Auto-capture
+  // OR
+  payment_capture: 0, // Manual capture (default)
+};
+```
+
+## 🔍 **How Payment Flow Works Now**
+
+### **Before (Problematic)**:
+```
+User Pays → Authorized → STUCK ❌
+```
+
+### **After (Fixed)**:
+```
+User Pays → Authorized → Backend Captures → Captured → Settlement ✅
+```
+
+### **Detailed Flow**:
+1. **User submits payment** via Razorpay checkout
+2. **Razorpay authorizes** payment (reserves money)
+3. **Frontend receives** `razorpay_payment_id`
+4. **Frontend calls** `/api/payments` with payment details
+5. **Backend captures** payment using Razorpay API
+6. **Payment status** changes to "Captured"
+7. **Money transfer** initiated to merchant account
+8. **Settlement** happens as per your Razorpay settings
+
+## 🧪 **Testing the Fix**
+
+### **Test Transaction Flow**:
+1. **Make a test payment** using Razorpay test cards
+2. **Check Razorpay Dashboard** → Payments
+3. **Status should show**: "Captured" instead of "Authorized"
+4. **Backend logs** should show: "Payment captured successfully"
+
+### **Test Cards** (Use these for testing):
+```
+Card Number: 4111 1111 1111 1111
+Expiry: Any future date
+CVV: Any 3 digits
+Name: Any name
+```
+
+### **Monitoring**:
+```bash
+# Check server logs for capture status
+npm run dev
+
+# Look for these messages:
+✅ "Payment captured successfully"
+❌ "Payment capture failed"
+```
+
+## 🚨 **Troubleshooting**
+
+### **Common Issues & Solutions**:
+
+#### **1. "Invalid API Key"**
+```bash
+# Check environment variables
+echo $RAZORPAY_KEY_SECRET
+```
+- Verify `.env.local` exists and has correct keys
+- Ensure no extra spaces in environment variables
+
+#### **2. "Payment cannot be captured"**
+- Payment might already be captured
+- Payment might have expired (auto-expires after some time)
+- Check payment status in Razorpay Dashboard
+
+#### **3. "Amount mismatch"**
+```typescript
+// Ensure amount consistency
+const amount = formData.customAmount || formData.donationAmount;
+// Amount in API call should match original payment amount
+```
+
+#### **4. "Capture Failed" Error**
+- Check payment is in "authorized" state
+- Verify payment hasn't been refunded
+- Ensure sufficient time hasn't passed (payments auto-expire)
+
+## 📊 **Payment Status Guide**
+
+| Status | Meaning | Action Required |
+|--------|---------|----------------|
+| `created` | Payment initiated | Wait for user completion |
+| `authorized` | Payment authorized | **CAPTURE REQUIRED** |
+| `captured` | Payment captured | ✅ No action needed |
+| `refunded` | Payment refunded | Cannot capture |
+| `failed` | Payment failed | Retry payment |
+
+## 🔐 **Security Best Practices**
+
+### **Payment Verification** (Recommended):
+```typescript
+// Verify payment signature for security
+const crypto = require('crypto');
+
+const generateSignature = (razorpayOrderId, razorpayPaymentId) => {
+  return crypto
+    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+    .update(razorpayOrderId + '|' + razorpayPaymentId)
+    .digest('hex');
+};
+```
+
+### **Environment Security**:
+- ✅ Keep `RAZORPAY_KEY_SECRET` private (server-side only)
+- ✅ Use `NEXT_PUBLIC_RAZORPAY_KEY_ID` for frontend
+- ❌ Never commit `.env.local` to version control
+
+## 📈 **Monitoring & Analytics**
+
+### **Payment Tracking**:
+```typescript
+// Log payment details for analytics
+console.log('Payment captured:', {
+  paymentId: response.razorpay_payment_id,
+  amount: amount,
+  campaignId: formData.campaignId,
+  timestamp: new Date().toISOString()
+});
+```
+
+### **Success Metrics**:
+- **Capture Rate**: % of authorized payments that get captured
+- **Settlement Time**: Time from capture to settlement
+- **Failed Captures**: Monitor and alert on capture failures
+
+## 🚀 **Production Deployment**
+
+### **Before Going Live**:
+1. **Replace test keys** with live Razorpay keys
+2. **Test with small amounts** using live keys
+3. **Monitor capture rates** closely
+4. **Set up alerts** for failed captures
+5. **Enable webhooks** for real-time payment updates
+
+### **Webhook Setup** (Optional but recommended):
+```typescript
+// Handle Razorpay webhooks for real-time updates
+app.post('/api/razorpay/webhook', (req, res) => {
+  const event = req.body.event;
+  if (event === 'payment.captured') {
+    // Update your database
+    console.log('Payment captured via webhook');
+  }
+});
+```
+
+With these changes implemented, your Razorpay payments should now automatically move from "Authorized" to "Captured" status, ensuring successful money transfer and settlement.
