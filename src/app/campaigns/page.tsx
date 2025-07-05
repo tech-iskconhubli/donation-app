@@ -1,4 +1,4 @@
-import CampaignsList from '@/components/CampaignsList';
+import CampaignsList from '@/components/CampaignsList';//
 
 export const metadata = {
   title: 'All Campaigns - Donation Platform',
