@@ -43,5 +43,5 @@ next-env.d.ts
 # OS
 Thumbs.db
 
-# Campaign data (comment out if you want to commit campaigns)
-/data/campaigns.json
+# # Campaign data (comment out if you want to commit campaigns)
+# /data/campaigns.json
