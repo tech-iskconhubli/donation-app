@@ -47,14 +47,15 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
   const toast = useToast();
 
   const sevaOptions = [
-    'Special Festival',
-    'Annadanam',
-    'Temple Construction',
-    'Educational Framework',
-    'Other'
+    'Gau Seva',
+    'Prasadam Vitarana Seva',
+    'Vaishanav Bhoj Seva',
+    'Ekadashi Maha Daan',
+    'Tulsi Arpan Seva',
+    'Mandir Nirmana Seva'
   ];
 
-  const donationAmounts = [500, 1000, 2500, 5000];
+  const donationAmounts = [10000, 5000, 2500, 1000];
 
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
@@ -79,16 +80,17 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
       newErrors.seva = 'Please select a seva option';
     }
 
-    // Check if either custom amount or predefined amount is selected
-    if (formData.customAmount !== undefined && formData.customAmount > 0) {
-      // Custom amount is provided, validate it
-      if (formData.customAmount <= 0) {
-        newErrors.customAmount = 'Please enter a valid donation amount';
-      } else if (formData.customAmount < 500) {
+    // Check if either predefined amount or custom amount is selected
+    if (formData.donationAmount && formData.donationAmount > 0) {
+      // Predefined amount is selected, no need to validate custom amount
+      // This is valid, no errors to add
+    } else if (formData.customAmount !== undefined && formData.customAmount > 0 && formData.donationAmount === 0) {
+      // Custom amount is provided (and it's not from a predefined selection), validate it
+      if (formData.customAmount < 500) {
         newErrors.customAmount = 'Minimum donation amount is ₹500';
       }
-    } else if (!formData.donationAmount || formData.donationAmount <= 0) {
-      // No custom amount, check if predefined amount is selected
+    } else {
+      // Neither predefined nor valid custom amount is selected
       newErrors.donationAmount = 'Please select or enter a donation amount';
     }
 
@@ -178,8 +180,8 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
     setFormData(prev => ({
       ...prev,
       customAmount: numericValue,
-      // Clear the predefined donation amount when custom amount is entered
-      donationAmount: numericValue ? 0 : prev.donationAmount
+      // Clear the predefined donation amount when custom amount is manually changed
+      donationAmount: numericValue && numericValue > 0 && !donationAmounts.includes(numericValue) ? 0 : prev.donationAmount
     }));
 
     // Clear custom amount error when user starts typing
@@ -195,7 +197,7 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
     setFormData(prev => ({
       ...prev,
       donationAmount: amount,
-      customAmount: undefined // Clear custom amount when predefined amount is selected
+      customAmount: amount // Set custom amount to match the selected predefined amount
     }));
     
     // Clear errors when a predefined amount is selected
@@ -289,7 +291,7 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
                 <GridItem key={amount}>
                   <Button
                     w="100%"
-                    variant={formData.donationAmount === amount && (!formData.customAmount || formData.customAmount === 0) ? 'solid' : 'outline'}
+                    variant={formData.donationAmount === amount ? 'solid' : 'outline'}
                     onClick={() => handleDonationAmountChange(amount)}
                     size={{ base: 'sm', md: 'md' }}
                   >

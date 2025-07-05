@@ -82,7 +82,7 @@ const MainLayout = () => {
               {/* Details Section */}
               <Box bg="white" p={6} borderRadius="lg" shadow="lg">
                 <Heading as="h2" size="lg" color="gray.800" mb={4}>
-                  Details about the campaign
+                  Offer Ashadhi Ekadashi Seva
                 </Heading>
                 <VStack spacing={4} align="start">
                   {config.details.split('\n\n').map((paragraph, index) => (
@@ -112,7 +112,7 @@ const MainLayout = () => {
       <Box as="footer" bg="gray.800" color="white" mt={16}>
         <Container maxW="7xl" py={8}>
           <Text textAlign="center">
-            &copy; 2024 Donation Campaign. All rights reserved.
+            &copy; 2025 ISKCON Hubli-Dharwad. All rights reserved.
           </Text>
         </Container>
       </Box>

@@ -105,7 +105,6 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
                 src={config.bannerImageUrl}
                 alt="Campaign Banner"
                 maxW="100%"
-                maxH="300px"
                 objectFit="cover"
                 borderRadius="lg"
                 shadow="md"
@@ -149,7 +148,7 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
               {/* Details Section */}
               <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="lg">
                 <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.800" mb={4}>
-                  Details about the campaign
+                  Offer Ashadhi Ekadashi Seva
                 </Heading>
                 <VStack spacing={4} align="start">
                   {config.details.split('\n\n').map((paragraph, index) => (
@@ -185,7 +184,7 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
           <VStack spacing={4}>
             <Flex justify="space-between" align="center" flexDirection={{ base: 'column', md: 'row' }} gap={4} w="100%">
               <Text textAlign="center">
-                &copy; 2024 Donation Campaign. All rights reserved.
+                &copy; 2025 ISKCON Hubli-Dharwad. All rights reserved.
               </Text>
               <Text fontSize="sm" color="gray.400">
                 Campaign ID: {campaignId}
