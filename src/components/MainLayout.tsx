@@ -40,7 +40,7 @@ const MainLayout = () => {
         <Container maxW="7xl" py={6}>
           <Flex justify="center">
             <Image
-              src={config.imageUrl}
+              src={config.bannerImageUrl}
               alt="Campaign Header"
               maxW="800px"
               maxH="300px"
@@ -70,7 +70,7 @@ const MainLayout = () => {
               <Box bg="white" p={6} borderRadius="lg" shadow="lg">
                 <Box position="relative" aspectRatio="16/9">
                   <Image
-                    src={config.imageUrl}
+                    src={config.campaignImageUrl}
                     alt="Campaign Image"
                     w="100%"
                     h="100%"
