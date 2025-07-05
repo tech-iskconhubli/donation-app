@@ -18,11 +18,14 @@ import { getCampaignConfig, CampaignConfig } from '@/data/campaignConfig';
 
 const MainLayout = () => {
   const [config, setConfig] = useState<CampaignConfig>({
+    id: '',
     header: '',
     bannerImageUrl: '',
     campaignImageUrl: '',
     details: '',
-    active: false
+    active: false,
+    createdAt: '',
+    updatedAt: ''
   });
 
   useEffect(() => {
