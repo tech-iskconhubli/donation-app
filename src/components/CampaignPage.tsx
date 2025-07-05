@@ -85,7 +85,7 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
   }
 
   return (
-    <Box minH="100vh" bg="gray.100">
+    <Box minH="100vh" bg="gray.100" >
       {/* Inactive Campaign Warning */}
       {config && !config.active && (
         <Alert status="warning" variant="solid">
@@ -116,10 +116,12 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
       )}
 
       {/* Main Content */}
-      <Container as="main" maxW="7xl" py={8} px={{ base: 4, md: 8 }}>
+      <Container as="main" maxW="7xl" py={8} px={{ base: 4, md: 8 }} >
         <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={{ base: 6, md: 8 }}>
           {/* Left Column */}
-          <GridItem>
+          <Flex justify={{ base: 'center', md: 'flex-start' }} w="100%">
+        <GridItem width={{ base: '90%', md: '100%' }}>
+
             <VStack spacing={{ base: 6, md: 8 }} align="stretch">
               {/* Header Section */}
               <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="lg">
@@ -158,10 +160,13 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
                 </VStack>
               </Box>
             </VStack>
-          </GridItem>
+            </GridItem>
+            </Flex>
 
           {/* Right Column */}
-          <GridItem>
+          <Flex justify={{ base: 'center', md: 'flex-start' }} w="100%">
+          <GridItem width={{ base: '90%', md: '100%' }}>
+
             <VStack spacing={{ base: 6, md: 8 }} align="stretch">
               {/* Donation Form */}
               <DonationForm campaignId={campaignId} />
@@ -169,7 +174,8 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
               {/* Contact Information */}
               <ContactInfo />
             </VStack>
-          </GridItem>
+            </GridItem>
+            </Flex>
         </Grid>
       </Container>
 
