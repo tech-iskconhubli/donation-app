@@ -39,13 +39,13 @@ const ContactInfo = () => {
             Phone
           </Heading>
           <Link 
-            href="tel:9342111008" 
+            href="tel:+919342111008" 
             color="brand.500" 
             _hover={{ color: 'brand.600' }}
             fontWeight="medium"
             fontSize={{ base: 'sm', md: 'md' }}
           >
-            9342111008
+            +91 9342111008
           </Link>
         </Box>
 
@@ -55,7 +55,7 @@ const ContactInfo = () => {
             Email
           </Heading>
           <Link 
-            href="email:dcc.iskconhubli@gmail.com" 
+            href="mailto:dcc.iskconhubli@gmail.com" 
             color="brand.500" 
             _hover={{ color: 'brand.600' }}
             fontWeight="medium"

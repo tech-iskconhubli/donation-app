@@ -253,15 +253,18 @@ const CampaignsList = () => {
             <Link as={NextLink} href="/" color="brand.500" fontWeight="medium">
               Home
             </Link>
-            <Link as={NextLink} href="/admin" color="brand.500" fontWeight="medium">
+            {/* <Link as={NextLink} href="/admin" color="brand.500" fontWeight="medium">
               Admin Dashboard
+            </Link> */}
+            <Link href="mailto:dcc.iskconhubli@gmail.com" color="brand.500" fontWeight="medium">
+              Email: dcc.iskconhubli@gmail.com
             </Link>
             <Link 
-              href="tel:9342111008" 
+              href="tel:=919342111008" 
               color="brand.500" 
               fontWeight="medium"
             >
-              Contact: 9342111008
+              Contact: +91 9342111008
             </Link>
           </Flex>
         </Container>

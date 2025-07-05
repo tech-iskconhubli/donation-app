@@ -192,14 +192,17 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
             </Flex>
             
             <Flex justify="center" gap={6} flexWrap="wrap" pt={4} borderTop="1px" borderColor="gray.600" w="100%">
-              <Link as={NextLink} href="/campaigns" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
+              {/* <Link as={NextLink} href="/campaigns" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
                 View All Campaigns
               </Link>
               <Link as={NextLink} href="/admin" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
                 Admin Dashboard
+              </Link> */}
+              <Link href="mailto:dcc.iskconhubli@gmail.com" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
+                Email: dcc.iskconhubli@gmail.com
               </Link>
-              <Link href="tel:9342111008" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
-                Contact: 9342111008
+              <Link href="tel:+919342111008" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
+                Contact: +91 9342111008
               </Link>
             </Flex>
           </VStack>
