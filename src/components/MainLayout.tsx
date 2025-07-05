@@ -47,7 +47,6 @@ const MainLayout = () => {
               objectFit="cover"
               borderRadius="lg"
               shadow="md"
-              priority
             />
           </Flex>
         </Container>
