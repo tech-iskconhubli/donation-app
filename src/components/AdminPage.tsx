@@ -277,7 +277,7 @@ const AdminPage = () => {
           bannerImageUrl: '',
           campaignImageUrl: '',
           details: '',
-          active: '',        
+          active: false,        
           id: '',
           createdAt: '',
           updatedAt: ''
