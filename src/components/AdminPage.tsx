@@ -276,7 +276,11 @@ const AdminPage = () => {
           header: '',
           bannerImageUrl: '',
           campaignImageUrl: '',
-          details: ''
+          details: '',
+          active: '',        
+          id: '',
+          createdAt: '',
+          updatedAt: ''
         });
       }
     }
