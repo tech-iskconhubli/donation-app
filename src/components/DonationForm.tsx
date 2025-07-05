@@ -54,7 +54,7 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
     'Other'
   ];
 
-  const donationAmounts = [250, 500, 1000, 2500];
+  const donationAmounts = [500, 1000, 2500, 5000];
 
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
@@ -84,6 +84,8 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
       // Custom amount is provided, validate it
       if (formData.customAmount <= 0) {
         newErrors.customAmount = 'Please enter a valid donation amount';
+      } else if (formData.customAmount < 500) {
+        newErrors.customAmount = 'Minimum donation amount is ₹500';
       }
     } else if (!formData.donationAmount || formData.donationAmount <= 0) {
       // No custom amount, check if predefined amount is selected
@@ -207,7 +209,16 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
   };
 
   return (
-    <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="lg">
+    <Box 
+      bg="white" 
+      p={{ base: 4, md: 6 }} 
+      borderRadius="lg" 
+      shadow="lg"
+      border="2px solid"
+      borderColor="blue.200"
+      _hover={{ borderColor: "blue.300" }}
+      transition="border-color 0.2s"
+    >
       <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.800" mb={{ base: 4, md: 6 }}>
         Make a Donation
       </Heading>
@@ -290,11 +301,11 @@ const DonationForm = ({ campaignId }: DonationFormProps) => {
             
             {/* Custom Amount Input */}
             <NumberInput 
-              min={1} 
+              min={500} 
               value={formData.customAmount || ''} 
               onChange={handleCustomAmountChange}
             >
-              <NumberInputField placeholder="Custom Amount" />
+              <NumberInputField placeholder="Custom Amount (Min: ₹500)" />
             </NumberInput>
             
             <FormErrorMessage>
