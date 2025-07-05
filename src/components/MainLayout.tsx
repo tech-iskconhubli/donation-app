@@ -19,8 +19,10 @@ import { getCampaignConfig, CampaignConfig } from '@/data/campaignConfig';
 const MainLayout = () => {
   const [config, setConfig] = useState<CampaignConfig>({
     header: '',
-    imageUrl: '',
-    details: ''
+    bannerImageUrl: '',
+    campaignImageUrl: '',
+    details: '',
+    active: false
   });
 
   useEffect(() => {
