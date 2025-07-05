@@ -257,11 +257,11 @@ const CampaignsList = () => {
               Admin Dashboard
             </Link>
             <Link 
-              href="tel:9066106171" 
+              href="tel:9342111008" 
               color="brand.500" 
               fontWeight="medium"
             >
-              Contact: 9066106171
+              Contact: 9342111008
             </Link>
           </Flex>
         </Container>

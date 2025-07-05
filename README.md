@@ -130,7 +130,7 @@ donation-app/
 
 **Address**: KSFC, Hubballi-Dharwad Road, Besides, Rayapur, Hubballi, Karnataka 580009
 
-**Phone**: 9066106171
+**Phone**: 9342111008
 
 **Timings**:
 - Weekdays: Morning 9:30am to 1pm, Evening 4:15pm to 8pm

@@ -193,8 +193,8 @@ const CampaignPage = ({ campaignId }: CampaignPageProps) => {
               <Link as={NextLink} href="/admin" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
                 Admin Dashboard
               </Link>
-              <Link href="tel:9066106171" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
-                Contact: 9066106171
+              <Link href="tel:9342111008" color="gray.300" _hover={{ color: 'white' }} fontSize="sm">
+                Contact: 9342111008
               </Link>
             </Flex>
           </VStack>
